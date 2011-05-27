@@ -58,6 +58,11 @@
 @synthesize entry;
 @synthesize tree;
 
+/**
+ @param theEntry A git_tree_entry reference.
+ @param parent A GTTree object that contains the tree entry.
+ @returns A GTTreeEntry object initialized with theEntry and parent.
+ */
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	if((self = [super init])) {
 		self.entry = theEntry;
@@ -66,26 +71,48 @@
 	return self;
 }
 
+/**
+ Convenience class method of initWithEntry:parentTree:.
+ @param theEntry A git_tree_entry reference.
+ @param parent A GTTree object that contains the tree entry.
+ @returns A GTTreeEntry object initialized with theEntry and parent.
+ */
 + (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent {
 	
 	return [[[self alloc] initWithEntry:theEntry parentTree:parent] autorelease];
 }
 
+/**
+ Get the name of the GTTreeEntry
+ @returns An NSString initialized to the name of the tree entry.
+ */
 - (NSString *)name {
 	
 	return [NSString stringWithUTF8String:git_tree_entry_name(self.entry)];
 }
 
+/**
+ Get the tree entry attributes.
+ @returns An NSInteger of the GTTreeEntry attributes.
+ */
 - (NSInteger)attributes {
 	
 	return git_tree_entry_attributes(self.entry);
 }
 
+/**
+ Get the sha of the GTTreeEntry.
+ @returns An NSString initialized to the sha of the GTTreeEntry.
+ */
 - (NSString *)sha {
 	
 	return [NSString git_stringWithOid:git_tree_entry_id(self.entry)];
 }
 
+/**
+ Get the repository of the GTTreeEntry.
+ @returns A GTRepository that contains the tree.
+ */
 - (GTRepository *)repository {
     return self.tree.repository;
 }

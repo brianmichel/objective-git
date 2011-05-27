@@ -46,21 +46,40 @@
 #pragma mark -
 #pragma mark API
 
+/**
+ Get the number of entries in a given tree.
+ @returns An NSInteger set to the number of entries in the tree.
+ */
 - (NSInteger)numberOfEntries {
 
 	return (NSInteger)git_tree_entrycount(self.tree);
 }
 
+/**
+ Create a new GTTreeEntry with a git_tree_entry reference.
+ @param entry A git_tree_entry to initialize a new GTTreeEntry object with.
+ @returns A newly initialized GTTreeEntry object.
+ */
 - (GTTreeEntry *)createEntryWithEntry:(const git_tree_entry *)entry {
 	
 	return [GTTreeEntry entryWithEntry:entry parentTree:self];
 }
 
+/**
+ Get the GTTreeEntry at a given index.
+ @param index The index at which to get the GTTreeEntry from.
+ @returns A GTTreeEntry object at the index.
+ */
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index {
 	
 	return [self createEntryWithEntry:git_tree_entry_byindex(self.tree, (int)index)];
 }
 
+/**
+ Get the GTTreeEntry with a given name.
+ @param name The name of the GTTreeEntry object.
+ @returns A GTTreeEntry object with the same name as name.
+ */
 - (GTTreeEntry *)entryWithName:(NSString *)name {
 	
 	return [self createEntryWithEntry:git_tree_entry_byname(self.tree, [name UTF8String])];

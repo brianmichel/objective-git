@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		72A26701138F4612000BEDA6 /* Documentation-HTML */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 72A26702138F4613000BEDA6 /* Build configuration list for PBXAggregateTarget "Documentation-HTML" */;
+			buildPhases = (
+				72A26705138F4629000BEDA6 /* Build Documentation */,
+			);
+			dependencies = (
+			);
+			name = "Documentation-HTML";
+			productName = "Documentation - HTML & RTF";
+		};
+		72EEAE8E138F2D1800E4F547 /* Documentation-DocSet */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 72EEAE8F138F2D1800E4F547 /* Build configuration list for PBXAggregateTarget "Documentation-DocSet" */;
+			buildPhases = (
+				72EEAE92138F2D1E00E4F547 /* Build Documentation */,
+			);
+			dependencies = (
+			);
+			name = "Documentation-DocSet";
+			productName = Documentation;
+		};
 		BDE4BE44130EF84000851650 /* Build and Install */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = BDE4BE49130EF86800851650 /* Build configuration list for PBXAggregateTarget "Build and Install" */;
@@ -666,6 +688,8 @@
 				BDD8AEDE1313311100CB5D40 /* Tests */,
 				04DB4644133AB57600D9C624 /* ObjectiveGit-iOS */,
 				BDD9C3D4133BA556003708E7 /* Tests-iOS */,
+				72EEAE8E138F2D1800E4F547 /* Documentation-DocSet */,
+				72A26701138F4612000BEDA6 /* Documentation-HTML */,
 			);
 		};
 /* End PBXProject section */
@@ -699,6 +723,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		72A26705138F4629000BEDA6 /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export DOXYGEN_PATH=/usr/local/bin/doxygen\n\nif ! [ -f $SOURCE_ROOT/doxygen.config ] \nthen \necho doxygen config file does not exist\n$DOXYGEN_PATH -g $SOURCE_ROOT/doxygen.config\nfi\n\n$DOXYGEN_PATH $SOURCE_ROOT/doxygen.config\n\n\n";
+		};
+		72EEAE92138F2D1E00E4F547 /* Build Documentation */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Build Documentation";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#  Build the doxygen documentation for the project and load the docset into Xcode.\n\n#  Use the following to adjust the value of the $DOXYGEN_PATH User-Defined Setting:\n#    Binary install location: /Applications/Doxygen.app/Contents/Resources/doxygen\n#    Source build install location: /usr/local/bin/doxygen\n\n#  If the config file doesn't exist, run 'doxygen -g $SOURCE_ROOT/doxygen.config' to \n#   a get default file.\nexport DOXYGEN_PATH=/usr/local/bin/doxygen\n\n\nif ! [ -f $SOURCE_ROOT/doxygen.config ] \nthen \necho doxygen config file does not exist\n$DOXYGEN_PATH -g $SOURCE_ROOT/doxygen.config\nfi\n\n#  Append the proper input/output directories and docset info to the config file.\n#  This works even though values are assigned higher up in the file. Easier than sed.\n\ncp $SOURCE_ROOT/doxygen.config $TEMP_DIR/doxygen.config\n\necho \"INPUT = $SOURCE_ROOT\" >> $TEMP_DIR/doxygen.config\necho \"OUTPUT_DIRECTORY = $SOURCE_ROOT/Objective-Git.docset\" >> $TEMP_DIR/doxygen.config\necho \"GENERATE_DOCSET        = YES\" >> $TEMP_DIR/doxygen.config\necho \"DOCSET_BUNDLE_ID       = com.objective-git-team.objective-git\" >> $TEMP_DIR/doxygen.config\n\n#  Run doxygen on the updated config file.\n#  Note: doxygen creates a Makefile that does most of the heavy lifting.\n\n$DOXYGEN_PATH $TEMP_DIR/doxygen.config\n\n#  make will invoke docsetutil. Take a look at the Makefile to see how this is done.\n\nmake -C $SOURCE_ROOT/Objective-Git.docset/html install\n\n#  Construct a temporary applescript file to tell Xcode to load a docset.\n\nrm -f $TEMP_DIR/loadDocSet.scpt\n\necho \"tell application \\\"Xcode\\\"\" >> $TEMP_DIR/loadDocSet.scpt\necho \"load documentation set with path \\\"/Users/$USER/Library/Developer/Shared/Documentation/DocSets/\\\"\" \n>> $TEMP_DIR/loadDocSet.scpt\necho \"end tell\" >> $TEMP_DIR/loadDocSet.scpt\n\n#  Run the load-docset applescript command.\n\nosascript $TEMP_DIR/loadDocSet.scpt\n\nexit 0\n\n";
+		};
 		BDD8AFB1131337F800CB5D40 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -999,6 +1051,34 @@
 			};
 			name = Release;
 		};
+		72A26703138F4613000BEDA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		72A26704138F4613000BEDA6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		72EEAE90138F2D1800E4F547 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		72EEAE91138F2D1800E4F547 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		BDD8AEE51313311200CB5D40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1179,6 +1259,24 @@
 			buildConfigurations = (
 				1DEB91B208733DA50010E9CD /* Debug */,
 				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72A26702138F4613000BEDA6 /* Build configuration list for PBXAggregateTarget "Documentation-HTML" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72A26703138F4613000BEDA6 /* Debug */,
+				72A26704138F4613000BEDA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		72EEAE8F138F2D1800E4F547 /* Build configuration list for PBXAggregateTarget "Documentation-DocSet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72EEAE90138F2D1800E4F547 /* Debug */,
+				72EEAE91138F2D1800E4F547 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

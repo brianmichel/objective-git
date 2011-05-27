@@ -41,6 +41,10 @@
 	return [NSString stringWithFormat:@"<%@: %p> author: %@, shortMessage: %@, message: %@", NSStringFromClass([self class]), self, self.author, [self shortMessage], [self message]];
 }
 
+
+/**
+ @returns git_commit reference for the object.
+ */
 - (git_commit *)commit {
 	
 	return (git_commit *)self.obj;
@@ -53,6 +57,17 @@
 @synthesize committer;
 @synthesize parents;
 
+/**
+ @param theRepo The GTRepository object to create a commit in.
+ @param refName The reference name as an NSString.
+ @param authorSig The GTSignature object for the author.
+ @param committerSig The GTSignature object for the committer.
+ @param newMessage The message for the commit as an NSString.
+ @param theTree The GTTree object to commit the changes to.
+ @param theParents An array of parent GTCommit objects.
+ @param error A nil initialized NSError object to return if there is a failure.
+ @returns a newly initialized GTCommit object.
+ */
 + (GTCommit *)commitInRepository:(GTRepository *)theRepo
 			updateRefNamed:(NSString *)refName
 					author:(GTSignature *)authorSig
@@ -66,6 +81,17 @@
 	return sha ? (GTCommit *)[theRepo lookupObjectBySha:sha objectType:GTObjectTypeCommit error:error] : nil;
 }
 
+/**
+ @param theRepo The GTRepository object to create a commit in.
+ @param refName The reference name as an NSString.
+ @param authorSig The GTSignature object for the author.
+ @param committerSig The GTSignature object for the committer.
+ @param newMessage The message for the commit as an NSString.
+ @param theTree The GTTree object to commit the changes to.
+ @param theParents An array of parent GTCommit objects.
+ @param error A nil initialized NSError object to return if there is a failure.
+ @returns a newly initialized NSString of the commit sha.
+ */
 + (NSString *)shaByCreatingCommitInRepository:(GTRepository *)theRepo
 				  updateRefNamed:(NSString *)refName
 						  author:(GTSignature *)authorSig
@@ -100,18 +126,30 @@
 	return [NSString git_stringWithOid:&oid];
 }
 
+/**
+ Get the full message out of the commit.
+ @returns An NSString object of the entire message.
+ */
 - (NSString *)message {
 	
 	const char *s = git_commit_message(self.commit);
 	return [NSString stringWithUTF8String:s];
 }
 
+/**
+ Get the short message out of the commit.
+ @returns An NSString object of the short message.
+ */
 - (NSString *)shortMessage {
 	
 	const char *s = git_commit_message_short(self.commit);
 	return [NSString stringWithUTF8String:s];
 }
 
+/**
+ Get the details out of the commit message.
+ @returns An NSString object of the message details.
+ */
 - (NSString *)messageDetails {
 	
 	NSArray *lines = [self.message componentsSeparatedByString:@"\n"];
@@ -129,12 +167,20 @@
 	return result;
 }
 
+/**
+ Get the commit date.
+ @returns An NSDate object initialized with the commit date.
+ */
 - (NSDate *)commitDate {
 	
 	time_t t = git_commit_time(self.commit);
 	return [NSDate dateWithTimeIntervalSince1970:t];
 }
 
+/**
+ Get the author of the commit.
+ @return The GTSignature object for the author.
+ */
 - (GTSignature *)author {
 	
 	if(author == nil) {
@@ -143,6 +189,10 @@
 	return author;
 }
 
+/**
+ Get the committer of the commit.
+ @return The GTSignature object for the committer.
+ */
 - (GTSignature *)committer {
 	
 	if(committer == nil) {
@@ -151,6 +201,10 @@
 	return committer;
 }
 
+/**
+ Get the GTTree reference that the commit belongs to.
+ @returns The GTTree reference that the commit belongs to.
+ */
 - (GTTree *)tree {
 	
 	git_tree *t;
@@ -164,6 +218,10 @@
 	return (GTTree *)[GTObject objectWithObj:(git_object *)t inRepository:self.repository];
 }
 
+/**
+ Get the array of parent commits this commit belongs to.
+ @returns An NSArray initialized with the GTCommit objects that are parent(s) to this commit.
+ */
 - (NSArray *)parents {
 	
 	if(parents == nil) {

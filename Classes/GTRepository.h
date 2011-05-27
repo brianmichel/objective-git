@@ -40,10 +40,29 @@
 
 @interface GTRepository : NSObject <GTObject> {}
 
+/**
+ Readonly, assigned property for the C-API repo.
+ */
 @property (nonatomic, assign, readonly) git_repository *repo;
+
+/**
+ Readonly, retained NSURL to the repo file location.
+ */
 @property (nonatomic, retain, readonly) NSURL *fileUrl;
+
+/**
+ Readonly, retained GTEnumerator. (Should only be used on the main thread)
+ */
 @property (nonatomic, retain, readonly) GTEnumerator *enumerator; // should only be used on the main thread
+
+/**
+ Readonly, retained GTIndex.
+ */
 @property (nonatomic, retain, readonly) GTIndex *index;
+
+/**
+ Readonly, retained GTObjectDatabase.
+ */
 @property (nonatomic, retain, readonly) GTObjectDatabase *objectDatabase;
 
 + (BOOL)initializeEmptyRepositoryAtURL:(NSURL *)localFileURL error:(NSError **)error;
