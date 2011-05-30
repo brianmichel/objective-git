@@ -64,11 +64,6 @@
 @synthesize walk;
 @synthesize options;
 
-/**
- @param theRepo The GTRepository to initialize the GTEnumerator with.
- @param error The nil initialized address of an NSError object.
- @returns newly initialized GTEnumerator object, or nil with initialized error.
- */
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
 	if((self = [super init])) {
@@ -86,22 +81,11 @@
 	return self;
 }
 
-/**
- Convenience method to get a correctly initialized GTEnumerator.
- @param theRepo The GTRepository to initialize the GTEnumerator with.
- @param error The nil initialized address of an NSError object.
- @returns newly initialized GTEnumerator object, or nil with initialized error.
- */
 + (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error {
 	
 	return [[[self alloc] initWithRepository:theRepo error:error] autorelease];
 }
 
-/**
- @param sha The sha to attempt to push.
- @param error The nil initialized address of an NSError object.
- @return YES if the sha was successfully pushed, or NO with initialized error if there was a failure.
- */
 - (BOOL)push:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
@@ -120,12 +104,6 @@
 	return YES;
 }
 
-/**
- Attempts to tell the Enumerator to hide a commit matching the given sha.
- @param sha The sha to attempt to hide.
- @param error The nil initialized address of an NSError object.
- @returns YES if the commit with the given sha was hidden successfully, or NO if it was not with an initialized error.
- */
 - (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error {
 	
 	git_oid oid;
@@ -141,9 +119,6 @@
 	return YES;
 }
 
-/**
- Resets the revwalker.
- */
 - (void)reset {
 	
 	git_revwalk_reset(self.walk);
@@ -184,11 +159,6 @@
     return array;
 }
 
-/**
- @param sha The sha string to start counting from.
- @param error The nil initialized address of an NSError object.
- @returns initialized NSInteger with the count.
- */
 - (NSInteger)countFromSha:(NSString *)sha error:(NSError **)error {
 	
 	[self setOptions:GTEnumeratorOptionsNone];

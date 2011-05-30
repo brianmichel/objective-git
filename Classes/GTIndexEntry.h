@@ -33,8 +33,23 @@
 @interface GTIndexEntry : NSObject {}
 
 @property (nonatomic, assign) git_index_entry *entry;
+
+/**
+ Get the path of a given GTIndexEntry.
+ @returns An NSString object containing the path of the GTIndexEntry.
+ */
 @property (nonatomic, assign) NSString *path;
+
+/**
+ Get the modification date of a given GTIndexEntry.
+ @returns An NSDate containing the modification date of the GTIndexEntry.
+ */
 @property (nonatomic, assign) NSDate *modificationDate;
+
+/**
+ Get the creation date of a given GTIndexEntry.
+ @returns An NSDate containing the creation date of the GTIndexEntry.
+ */
 @property (nonatomic, assign) NSDate *creationDate;
 @property (nonatomic, assign) long long fileSize;
 @property (nonatomic, assign) NSUInteger dev;
@@ -47,9 +62,24 @@
 @property (nonatomic, readonly) BOOL isValid;
 
 // Convenience initializers
+/**
+ Create a new GTIndexEntry with a git_index_entry reference.
+ @params theEntry A git_index_entry to initialize the GTIndexEntry object with.
+ @returns A newly initialized GTIndexEntry object.
+ */
 - (id)initWithEntry:(git_index_entry *)theEntry;
+
+/**
+ Convenience class method of initWithEntry:.
+ @params theEntry A git_index_entry to initialize the GTIndexEntry object with.
+ @returns A newly initialized GTIndexEntry object.
+ */
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry;
 
+/**
+ Get the sha of a given GTIndexEntry.
+ @returns An NSString object containing the sha of the GTIndexEntry.
+ */
 - (NSString *)sha;
 - (BOOL)setSha:(NSString *)theSha error:(NSError **)error;
 

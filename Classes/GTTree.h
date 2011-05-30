@@ -40,6 +40,10 @@
 // Get the number of entries
 //
 // returns the number of entries in this tree
+/**
+ Get the number of entries in a given tree.
+ @returns An NSInteger set to the number of entries in the tree.
+ */
 - (NSInteger)numberOfEntries;
 
 // Get a entry at the specified index
@@ -47,6 +51,11 @@
 // index - index to retreive entry from
 //
 // returns a GTTreeEntry or nil if there is nothing at the index
+/**
+ Get the GTTreeEntry at a given index.
+ @param index The index at which to get the GTTreeEntry from.
+ @returns A GTTreeEntry object at the index, or `nil` if there is nothing at the index.
+ */
 - (GTTreeEntry *)entryAtIndex:(NSInteger)index;
 
 // Get a entry by name
@@ -54,6 +63,11 @@
 // name - the name of the entry
 //
 // returns a GTTreeEntry or nil if there is nothing with the specified name
+/**
+ Get the GTTreeEntry with a given name.
+ @param name The name of the GTTreeEntry object.
+ @returns A GTTreeEntry object with the same name as name, or `nil` if there is nothing with the specified name.
+ */
 - (GTTreeEntry *)entryWithName:(NSString *)name;
 
 /*

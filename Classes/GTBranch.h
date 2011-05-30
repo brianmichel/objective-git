@@ -45,7 +45,16 @@ typedef enum {
 @property (nonatomic, readonly, retain) GTReference *reference;
 @property (nonatomic, retain) GTBranch *remoteBranch;
 
+/**
+ Get the local name prefix of the current branch. (Convenience Method)
+ @returns An NSString object containing the local name prefix.
+ */
 + (NSString *)localNamePrefix;
+
+/**
+ Get the remote name prefix of the current branch. (Convenience Method)
+ @returns An NSString object containing the remote name prefix.
+ */
 + (NSString *)remoteNamePrefix;
 
 // Convenience initializers

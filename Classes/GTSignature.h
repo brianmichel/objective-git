@@ -38,10 +38,32 @@
 @property (nonatomic, assign) NSDate *time;
 
 // Convenience initializers
+/** Create a new signature from a `git_signature` struct.
+ @param theSignature A `git_signature` struct in which to initialized the `GTSignature` object with.
+ @return A newly initialized `GTSignature` object.
+ */
 - (id)initWithSig:(git_signature *)theSignature;
+
+/** Create a new signature from a `git_signature` struct.
+ @param theSignature A `git_signature` struct in which to initialized the `GTSignature` object with.
+ @return A newly initialized `GTSignature` object.
+ */
 + (id)signatureWithSig:(git_signature *)theSignature;
 
+/** Create a new signature from a name, email, and date.
+ @param theName An `NSString` containing the name of the committer.
+ @param theEmail An `NSString` containing the email of the committer.
+ @param theTime An `NSDate` containing the date of the signature.
+ @return A newly initialized `GTSignature` object.
+ */
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
+
+/** Create a new signature from a name, email, and date.
+ @param theName An `NSString` containing the name of the committer.
+ @param theEmail An `NSString` containing the email of the committer.
+ @param theTime An `NSDate` containing the date of the signature.
+ @return A newly initialized `GTSignature` object.
+ */
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime;
 
 @end

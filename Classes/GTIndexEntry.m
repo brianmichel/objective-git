@@ -68,11 +68,6 @@
 	return self;
 }
 
-/**
- Create a new GTIndexEntry with a git_index_entry reference.
- @params theEntry A git_index_entry to initialize the GTIndexEntry object with.
- @returns A newly initialized GTIndexEntry object.
- */
 - (id)initWithEntry:(git_index_entry *)theEntry {
 	
 	if((self = [self init])) {
@@ -82,30 +77,18 @@
 	return self;
 }
 
-/**
- Convenience class method of initWithEntry:.
- @params theEntry A git_index_entry to initialize the GTIndexEntry object with.
- @returns A newly initialized GTIndexEntry object.
- */
 + (id)indexEntryWithEntry:(git_index_entry *)theEntry {
 	
 	return [[[self alloc] initWithEntry:theEntry] autorelease];
 }
 
-/**
- Get the path of a given GTIndexEntry.
- @returns An NSString object containing the path of the GTIndexEntry.
- */
 - (NSString *)path {
 	
 	if(self.entry->path == NULL)return nil;
 	return [NSString stringWithUTF8String:self.entry->path];
 }
 
-/**
- Set the path of a given GTIndexEntry.
- @params thePath An NSString object containing the path to set the GTIndexEntry to.
- */
+
 - (void)setPath:(NSString *)thePath {
 	
 	if(self.entry->path != NULL)
@@ -114,10 +97,6 @@
 	entry->path = strdup([thePath UTF8String]);
 }
 
-/**
- Get the sha of a given GTIndexEntry.
- @returns An NSString object containing the sha of the GTIndexEntry.
- */
 - (NSString *)sha {
 	
 	return [NSString git_stringWithOid:&entry->oid];
@@ -133,20 +112,12 @@
 	return YES;
 }
 
-/**
- Get the modification date of a given GTIndexEntry.
- @returns An NSDate containing the modification date of the GTIndexEntry.
- */
 - (NSDate *)modificationDate {
 	
 	double time = self.entry->mtime.seconds + (self.entry->mtime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
 
-/**
- Set the modification date of a given GTIndexEntry.
- @params time An NSDate object to set the GTIndexEntry's modification date to.
- */
 - (void)setModificationDate:(NSDate *)time {
 	
 	NSTimeInterval t = [time timeIntervalSince1970];
@@ -154,20 +125,12 @@
 	self.entry->mtime.nanoseconds = 1000 * (t - (int)t);
 }
 
-/**
- Get the creation date of a given GTIndexEntry.
- @returns An NSDate containing the creation date of the GTIndexEntry.
- */
 - (NSDate *)creationDate {
 	
 	double time = self.entry->ctime.seconds + (self.entry->ctime.nanoseconds/1000);
 	return [NSDate dateWithTimeIntervalSince1970:time];
 }
 
-/**
- Set the creation date of a given GTIndexEntry.
- @params time An NSDate object to set the GTIndexEntry's creation date to.
- */
 - (void)setCreationDate:(NSDate *)time {
 	
 	NSTimeInterval t = [time timeIntervalSince1970];

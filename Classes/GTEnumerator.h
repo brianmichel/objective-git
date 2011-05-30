@@ -54,12 +54,37 @@ typedef unsigned int GTEnumeratorOptions;
 @property (nonatomic, assign) __weak GTRepository *repository;
 @property (nonatomic, assign) GTEnumeratorOptions options;
 
+/**
+ @param theRepo The GTRepository to initialize the GTEnumerator with.
+ @param error The nil initialized address of an NSError object.
+ @returns newly initialized GTEnumerator object, or `nil` with initialized `NSError`.
+ */
 - (id)initWithRepository:(GTRepository *)theRepo error:(NSError **)error;
+
+/**
+ Convenience method to get a correctly initialized GTEnumerator.
+ @param theRepo The GTRepository to initialize the GTEnumerator with.
+ @param error The nil initialized address of an NSError object.
+ @returns newly initialized GTEnumerator object, or `nil` with initialized `NSError`.
+ */
 + (id)enumeratorWithRepository:(GTRepository *)theRepo error:(NSError **)error;
 
+
+/**
+ @param sha The sha to attempt to push.
+ @param error The nil initialized address of an NSError object.
+ @return YES if the sha was successfully pushed, or NO with initialized `NSError` if there was a failure.
+ */
 - (BOOL)push:(NSString *)sha error:(NSError **)error;
 
 // suppress the enumeration of the specified commit and all of its ancestors
+/** Suppress a commit.
+ Attempts to tell the Enumerator to suppress a commit matching the given sha, as well as all of it's ancestors.
+ 
+ @param sha The sha to attempt to hide.
+ @param error The nil initialized address of an NSError object.
+ @returns YES if the commit with the given sha was hidden successfully, or NO if it was not with an initialized error.
+ */
 - (BOOL)skipCommitWithHash:(NSString *)sha error:(NSError **)error;
 
 - (void)reset;

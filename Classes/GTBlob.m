@@ -38,6 +38,10 @@
   return [NSString stringWithFormat:@"<%@: %p> size: %i, content: %@, data = %@", NSStringFromClass([self class]), self, [self size], [self content], [self data]];
 }
 
+/**
+ Get the git_blob struct for this GTBlob object.
+ @returns A git_blob struct representing the GTBlob object.
+ */
 - (git_blob *)blob {
 	
 	return (git_blob *)self.obj;
@@ -46,21 +50,49 @@
 #pragma mark -
 #pragma mark API
 
+/**
+ Create a new blob object initialized with a string and repostory.
+ @param string An NSString to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 + (id)blobWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	return [[[self alloc] initWithString:string inRepository:repository error:error] autorelease];
 }
 
+/**
+ Create a new blob object initialized with data and repostory. (Convenience Method)
+ @param data An NSData to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 + (id)blobWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	return [[[self alloc] initWithData:data inRepository:repository error:error] autorelease];
 }
 
+/**
+ Create a new blob object initialized with a file and repostory. (Convenience Method)
+ @param file An NSURL to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 + (id)blobWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	return [[[self alloc] initWithFile:file inRepository:repository error:error] autorelease];
 }
 
+/**
+ Create a new blob object initialized with a git_oid and repostory.
+ @param oid A git_oid struct to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 - (id)initWithOid:(const git_oid *)oid inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	git_object *obj;
@@ -76,12 +108,26 @@
     return [self initWithObj:obj inRepository:repository];
 }
 
+/**
+ Create a new blob object initialized with a string and repostory.
+ @param string An NSString to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 - (id)initWithString:(NSString *)string inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     return [self initWithData:data inRepository:repository error:error];
 }
 
+/**
+ Create a new blob object initialized with data and repostory.
+ @param data An NSData to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 - (id)initWithData:(NSData *)data inRepository:(GTRepository *)repository error:(NSError **)error {
     
 	git_oid oid;
@@ -97,6 +143,13 @@
     return [self initWithOid:&oid inRepository:repository error:error];
 }
 
+/**
+ Create a new blob object initialized with a file and repostory. (Convenience Method)
+ @param file An NSURL to create the blob with.
+ @param repository A GTRepository object to create the blob in.
+ @param error A nil initialized address of an error object.
+ @returns A newly initialized GTBlob object, or nil with an initialized error if initialization fails.
+ */
 - (id)initWithFile:(NSURL *)file inRepository:(GTRepository *)repository error:(NSError **)error {
 	
 	git_oid oid;
@@ -112,11 +165,19 @@
     return [self initWithOid:&oid inRepository:repository error:error];
 }
 
+/**
+ Get the size of the GTBlob object.
+ @returns An NSInteger with the size of the GTBlob.
+ */
 - (NSInteger)size {
 	
 	return git_blob_rawsize(self.blob);
 }
 
+/**
+ Get the content of a GTBlob object.
+ @returns An NSString containing the contents of the GTBlob.
+ */
 - (NSString *)content {
 	
 	NSInteger s = [self size];
@@ -125,6 +186,10 @@
 	return [NSString stringWithUTF8String:git_blob_rawcontent(self.blob)];
 }
 
+/**
+ Get the data of the GTBlob object.
+ @returns An NSData object containing the data of the GTBlob object.
+ */
 - (NSData *)data {
     
 	NSInteger s = [self size];

@@ -37,11 +37,37 @@
 @property (nonatomic, assign, readonly) const git_tree_entry *entry;
 @property (nonatomic, assign, readonly) GTTree *tree;
 
+/**
+ @param theEntry A git_tree_entry reference.
+ @param parent A GTTree object that contains the tree entry.
+ @returns A GTTreeEntry object initialized with theEntry and parent.
+ */
 - (id)initWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
+
+/**
+ Convenience class method of initWithEntry:parentTree:.
+ @param theEntry A git_tree_entry reference.
+ @param parent A GTTree object that contains the tree entry.
+ @returns A GTTreeEntry object initialized with theEntry and parent.
+ */
 + (id)entryWithEntry:(const git_tree_entry *)theEntry parentTree:(GTTree *)parent;
 
+/**
+ Get the name of the GTTreeEntry
+ @returns An NSString initialized to the name of the tree entry.
+ */
 - (NSString *)name;
+
+/**
+ Get the tree entry attributes.
+ @returns An NSInteger of the GTTreeEntry attributes.
+ */
 - (NSInteger)attributes;
+
+/**
+ Get the sha of the GTTreeEntry.
+ @returns An NSString initialized to the sha of the GTTreeEntry.
+ */
 - (NSString *)sha;
 
 // Turn entry into an GTObject

@@ -45,10 +45,6 @@
 @synthesize email;
 @synthesize time;
 
-/**
- @param theSignature A reference to a git_signature struct.
- @returns A newly initialized GTSignature object.
- */
 - (id)initWithSig:(git_signature *)theSignature {
 	
 	if((self = [self init])) {
@@ -57,23 +53,11 @@
 	return self;
 }
 
-/**
- This is the convenience class method of initWithSig.
- @param theSignature A reference to a git_signature struct.
- @returns A newly initialized GTSignature object.
- */
 + (id)signatureWithSig:(git_signature *)theSignature {
 	
 	return [[[self alloc] initWithSig:theSignature] autorelease];
 }
 
-/**
- Creates a new GTSignature object with the given parameters.
- @param theName An NSString of the name to include in the signature.
- @param theEmail An NSString of the e-mail to include in the signature.
- @param theTime An NSDate of the date to include in the signature.
- @returns A newly initialized GTSignature object.
- */
 - (id)initWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	
 	if((self = [super init])) {
@@ -87,69 +71,38 @@
 	return self;
 }
 
-/**
- Convenience class method of initWithName.
- @param theName An NSString of the name to include in the signature.
- @param theEmail An NSString of the e-mail to include in the signature.
- @param theTime An NSDate of the date to include in the signature.
- @returns A newly initialized GTSignature object.
- */
 + (id)signatureWithName:(NSString *)theName email:(NSString *)theEmail time:(NSDate *)theTime {
 	
 	return [[[self alloc] initWithName:theName email:theEmail time:theTime] autorelease];
 }
 
-/**
- Get the name out of the signature object.
- @returns An NSString of the name in the signature.
- */
 - (NSString *)name {
 	
 	return [NSString stringWithUTF8String:self.sig->name];
 }
 
-/**
- Set the name in the signature object.
- @params n An NSString of the name to set on the signature.
-*/
 - (void)setName:(NSString *)n {
 	
 	free(self.sig->name);
 	self.sig->name = strdup([n cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
-/**
- Get the email address out of the signature object.
- @returns An NSString of the email address in the signature.
- */
 - (NSString *)email {
 	
 	return [NSString stringWithUTF8String:self.sig->email];
 }
 
-/**
- Set the email address in the signature object.
- @param An NSString of the email address to set on the signature.
- */
 - (void)setEmail:(NSString *)e {
 	
 	free(self.sig->email);
 	self.sig->email = strdup([e cStringUsingEncoding:NSUTF8StringEncoding]);
 }
 
-/**
- Get the time out of the signature object.
- @returns An NSDate of the time in the signature.
- */
 - (NSDate *)time {
 	
 	return [NSDate dateWithTimeIntervalSince1970:self.sig->when.time];
 }
 
-/**
- Set the time in the signature object.
- @param An NSDate of the time to set on the signature.
- */
 - (void)setTime:(NSDate *)d {
 	
 	self.sig->when.time = [d timeIntervalSince1970];
